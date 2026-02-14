@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ZONATECNO | Imperio Digital</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #00ff88;
+            --primary-glow: rgba(0, 255, 136, 0.4);
+            --dark-bg: #080808;
+            --card-bg: #121212;
+            --text-main: #ffffff;
+            --text-sec: #bbbbbb;
+            --border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Rajdhani', sans-serif; }
+
+        body {
+            background-color: var(--dark-bg);
+            background-image: radial-gradient(#1a1a1a 1px, transparent 1px);
+            background-size: 20px 20px;
+            color: var(--text-main);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            padding-bottom: 80px; 
+        }
+
+        /* --- SKELETON LOADER (NUEVO) --- */
+        #skeleton-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: var(--dark-bg); z-index: 9999;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            padding: 20px;
+        }
+        
+        .sk-header { width: 80%; height: 40px; margin-bottom: 30px; border-radius: 8px; }
+        .sk-hero-title { width: 70%; height: 60px; margin-bottom: 20px; border-radius: 8px; }
+        .sk-hero-text { width: 90%; height: 20px; margin-bottom: 10px; border-radius: 4px; }
+        .sk-row { display: flex; gap: 15px; width: 100%; justify-content: center; margin-top: 40px; }
+        .sk-card { width: 100px; height: 100px; border-radius: 15px; }
+
+        .skeleton-anim {
+            background: linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* Ocultar contenido real hasta cargar */
+        #main-content { opacity: 0; transition: opacity 0.5s ease-in; }
+
+        /* --- NAVBAR --- */
+        nav {
+            background: rgba(8, 8, 8, 0.95);
+            padding: 15px 20px;
+            border-bottom: var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: white;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        .logo span { color: var(--primary); }
+
+        .social-nav {
+            display: flex;
+            align-items: center;
+        }
+
+        .social-nav a {
+            color: white;
+            margin-left: 15px;
+            font-size: 1.2rem;
+            text-decoration: none;
+        }
+
+        .admin-trigger-nav {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid var(--primary);
+            margin-left: 15px;
+            transition: transform 0.3s;
+        }
+        .admin-trigger-nav:hover { transform: scale(1.1); box-shadow: 0 0 10px var(--primary); }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+        
+        h1 span {
+            background: linear-gradient(to right, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--text-sec);
+            margin-bottom: 30px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 700;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: transform 0.2s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn:active { transform: scale(0.95); }
+
+        .btn-primary {
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        /* --- ESTILOS CARRUSEL --- */
+        .section-title {
+            text-align: center;
+            font-size: 1.8rem;
+            margin: 50px 0 20px;
+            text-transform: uppercase;
+        }
+
+        .carrusel-wrapper {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            overflow: hidden;
+            position: relative;
+            padding: 10px 0 40px;
+        }
+
+        .carrusel-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            width: 100%;
+        }
+
+        .carrusel-slide {
+            min-width: 100%;
+            padding: 0 15px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .carrusel-dots {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+        }
+        .dot {
+            width: 8px;
+            height: 8px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .dot.active { background: var(--primary); }
+
+        /* --- ANIMACIONES --- */
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            15% { transform: scale(1.3); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.15); }
+            60% { transform: scale(1); }
+        }
+        @keyframes floating {
+            0% { transform: translateY(0px); text-shadow: 0 0 5px var(--primary); }
+            50% { transform: translateY(-8px); text-shadow: 0 0 15px var(--primary); }
+            100% { transform: translateY(0px); text-shadow: 0 0 5px var(--primary); }
+        }
+        @keyframes swing {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(10deg); }
+            50% { transform: rotate(0deg); }
+            75% { transform: rotate(-10deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        .anim-heart i { animation: heartbeat 1.5s infinite; color: #ff3366 !important; }
+        .anim-tech i { animation: floating 3s ease-in-out infinite; }
+        .anim-mail i { animation: swing 2s ease-in-out infinite; }
+
+        /* --- TARJETAS --- */
+        .social-card {
+            width: 100%;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            color: white;
+            position: relative;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+        .bg-yt { background: linear-gradient(45deg, #FF0000, #990000); }
+        .bg-wa { background: linear-gradient(45deg, #25D366, #128C7E); }
+        .bg-fb { background: linear-gradient(45deg, #1877F2, #0d4b9e); }
+        .social-card i { font-size: 3rem; margin-bottom: 15px; }
+        .social-btn {
+            background: white; color: #000; padding: 8px 20px;
+            border-radius: 20px; font-weight: bold; text-decoration: none;
+            display: inline-block; margin-top: 15px;
+        }
+
+        .service-card {
+            background: var(--card-bg);
+            border: var(--border);
+            padding: 30px;
+            border-radius: 15px;
+            width: 100%;
+            position: relative;
+        }
+        .icon-box {
+            width: 60px; height: 60px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            transition: 0.3s;
+        }
+        
+        .tag { font-size: 0.7rem; padding: 3px 8px; background: #222; border-radius: 4px; color: #888; margin-right: 5px; }
+
+        .client-card {
+            background: #1a1a1a; border: 1px solid #333; border-radius: 15px; padding: 20px; width: 100%; text-align: center;
+        }
+        .client-img {
+            width: 60px; height: 60px; background: #333; border-radius: 50%; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; overflow: hidden;
+        }
+        
+        .client-logo-img {
+            width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block;
+        }
+
+        /* --- NUEVA SECCIÓN: FEEDBACK Y CONTACTO --- */
+        .contact-hub {
+            max-width: 600px;
+            margin: 0 auto 60px;
+            padding: 0 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .hub-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            transition: 0.3s;
+        }
+        .hub-card:hover { border-color: var(--primary); background: rgba(0,255,136,0.02); }
+
+        .hub-card h3 { font-size: 1.3rem; margin-bottom: 5px; text-transform: uppercase; }
+        .hub-card p { font-size: 0.9rem; color: #888; margin-bottom: 15px; }
+
+        .btn-hub {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+        }
+        .btn-opinion { background: #333; color: white; border: 1px solid #555; }
+        .btn-contact { background: var(--primary); color: #000; box-shadow: 0 0 10px var(--primary-glow); }
+
+        /* --- FOOTER --- */
+        footer {
+            background: #000; padding: 30px 20px; text-align: center; border-top: var(--border); color: #555; font-size: 0.9rem;
+        }
+
+        .wa-float {
+            position: fixed; bottom: 20px; right: 20px;
+            background: #25D366; color: white;
+            width: 60px; height: 60px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            z-index: 2000; text-decoration: none; transition: transform 0.3s;
+        }
+        .wa-float:active { transform: scale(0.9); }
+
+        /* --- PANEL ADMIN --- */
+        #admin-modal {
+            display: none; 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); z-index: 9999;
+            align-items: center; justify-content: center;
+            overflow-y: auto; 
+        }
+        
+        .admin-box {
+            background: #1a1a1a; border: 1px solid var(--primary);
+            padding: 30px; border-radius: 15px; width: 90%; max-width: 400px;
+            text-align: center; position: relative;
+            max-height: 90vh; overflow-y: auto; 
+        }
+        
+        .admin-input {
+            width: 100%; padding: 10px; margin: 5px 0 15px;
+            background: #333; border: 1px solid #555; color: white;
+            border-radius: 5px; font-size: 0.9rem;
+        }
+
+        .admin-label {
+            color: var(--primary); display: block; text-align: left; 
+            font-size: 0.8rem; font-weight: bold; margin-top: 10px;
+        }
+        
+        .close-modal {
+            position: absolute; top: 10px; right: 15px;
+            color: #ff3366; font-size: 1.5rem; cursor: pointer;
+        }
+        
+        .admin-separator {
+            border-top: 1px solid #444; margin: 15px 0;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="skeleton-screen">
+        <div class="skeleton-anim sk-header"></div>
+        <div class="skeleton-anim sk-hero-title"></div>
+        <div class="skeleton-anim sk-hero-text"></div>
+        <div class="skeleton-anim sk-hero-text" style="width: 60%"></div>
+        <div class="sk-row">
+            <div class="skeleton-anim sk-card"></div>
+            <div class="skeleton-anim sk-card"></div>
+            <div class="skeleton-anim sk-card"></div>
+        </div>
+        <p style="color:#555; margin-top:20px; font-size:0.8rem;">Cargando Imperio Digital...</p>
+    </div>
+
+    <div id="main-content">
+        <nav>
+            <div class="logo"><span id="logo-part-1" style="color:white;">ZONA</span><span id="logo-part-2">TECNO</span></div>
+            <div class="social-nav">
+                <a href="#"><i class="fab fa-youtube"></i></a>
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <img src="https://i.ibb.co/VYVgCt2z/1000208341.png" alt="Admin" class="admin-trigger-nav" onclick="abrirAdmin()">
+            </div>
+        </nav>
+
+        <header class="hero">
+            <h1>TODO PARA TU<br><span>MUNDO DIGITAL</span></h1>
+            <p id="hero-txt">Desde sistemas profesionales hasta tutoriales de mods y tarjetas digitales. Si es tecnología, lo hacemos.</p>
+            
+            <div class="btn-group">
+                <a href="#contacto-hub" class="btn btn-primary">CONTACTAR</a>
+                <a href="#servicios" class="btn btn-outline">VER SERVICIOS</a>
+            </div>
+        </header>
+
+        <h2 class="section-title">Nuestra Comunidad</h2>
+        <div class="carrusel-wrapper" id="carousel-social">
+            <div class="carrusel-track">
+                <div class="carrusel-slide">
+                    <div class="social-card bg-yt">
+                        <i class="fab fa-youtube"></i>
+                        <h3>ZonaTecno YT</h3>
+                        <p>Tutoriales, Mods y Trucos.</p>
+                        <a href="https://youtube.com" target="_blank" class="social-btn" id="social-yt-link" style="color:#cc0000">Ver Videos</a>
+                    </div>
+                </div>
+                <div class="carrusel-slide">
+                    <div class="social-card bg-wa">
+                        <i class="fab fa-whatsapp"></i>
+                        <h3>Canal WhatsApp</h3>
+                        <p>Novedades al instante.</p>
+                        <a href="#" class="social-btn" id="social-wa-link" style="color:#128C7E">Unirme Ahora</a>
+                    </div>
+                </div>
+                <div class="carrusel-slide">
+                    <div class="social-card bg-fb">
+                        <i class="fab fa-facebook"></i>
+                        <h3>FanPage</h3>
+                        <p>Sorteos y comunidad.</p>
+                        <a href="#" class="social-btn" id="social-fb-link" style="color:#1877F2">Seguir</a>
+                    </div>
+                </div>
+            </div>
+            <div class="carrusel-dots"></div>
+        </div>
+
+        <h2 class="section-title" id="servicios">Catálogo Digital</h2>
+        <div class="carrusel-wrapper" id="carousel-services">
+            <div class="carrusel-track">
+                <div class="carrusel-slide">
+                    <div class="service-card anim-mail">
+                        <div class="icon-box"><i class="fas fa-envelope-open-text"></i></div>
+                        <h3>Invitaciones Web</h3>
+                        <p>Invitaciones digitales con cuenta regresiva, mapa y confirmación.</p>
+                        <div><span class="tag">Bodas</span><span class="tag">Fiestas</span></div>
+                        <a href="javascript:void(0)" onclick="pedirInfo('Invitaciones')" style="display:block; margin-top:15px; color:var(--primary); text-decoration:none; font-weight:bold;">Cotizar <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="carrusel-slide">
+                    <div class="service-card anim-heart">
+                        <div class="icon-box"><i class="fas fa-heart"></i></div>
+                        <h3>Códigos de Amor</h3>
+                        <p>Página web eterna para tu pareja. Galerías y cartas secretas.</p>
+                        <div><span class="tag">Regalos</span><span class="tag">Amor</span></div>
+                        <a href="javascript:void(0)" onclick="pedirInfo('Codigos Amor')" style="display:block; margin-top:15px; color:var(--primary); text-decoration:none; font-weight:bold;">Ver Ejemplos <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="carrusel-slide">
+                    <div class="service-card anim-tech">
+                        <div class="icon-box"><i class="fas fa-laptop-code"></i></div>
+                        <h3>Desarrollo Web</h3>
+                        <p>Paneles administrativos y landing pages a medida.</p>
+                        <div><span class="tag">Negocios</span><span class="tag">Admin</span></div>
+                        <a href="javascript:void(0)" onclick="pedirInfo('Desarrollo Web')" style="display:block; margin-top:15px; color:var(--primary); text-decoration:none; font-weight:bold;">Consultar <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="carrusel-dots"></div>
+        </div>
+
+        <h2 class="section-title">Sistemas Desarrollados</h2>
+        <div class="carrusel-wrapper" id="carousel-systems">
+            <div class="carrusel-track">
+                <div class="carrusel-slide">
+                    <div class="service-card anim-tech">
+                        <div class="icon-box"><i class="fab fa-android"></i></div>
+                        <h3>ZonaTecno Appstore</h3>
+                        <p>Descarga aplicaciones y herramientas exclusivas para tu dispositivo.</p>
+                        <div><span class="tag">Apps</span><span class="tag">Android</span></div>
+                        <a href="https://zonatecnoappstore.blogspot.com" target="_blank" id="sys-appstore-link" style="display:block; margin-top:15px; color:var(--primary); text-decoration:none; font-weight:bold;">Visitar Store <i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
+                <div class="carrusel-slide">
+                    <div class="service-card anim-tech">
+                        <div class="icon-box"><i class="fas fa-book-reader"></i></div>
+                        <h3>Biblioteca Virtual</h3>
+                        <p>Plataforma web para lectura y gestión de libros digitales.</p>
+                        <div><span class="tag">Lectura</span><span class="tag">Web</span></div>
+                        <a href="https://mancillacanales992-web.github.io/mi-app-libros/" target="_blank" id="sys-biblio-link" style="display:block; margin-top:15px; color:var(--primary); text-decoration:none; font-weight:bold;">Leer Ahora <i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
+                <div class="carrusel-slide">
+                    <div class="service-card anim-tech">
+                        <div class="icon-box"><i class="fas fa-ticket-alt"></i></div>
+                        <h3>Demo Rifero</h3>
+                        <p>Sistema de gestión de sorteos y rifas automatizadas en tiempo real.</p>
+                        <div><span class="tag">Sistemas</span><span class="tag">Demo</span></div>
+                        <a href="https://zonatecnodemo.onrender.com" target="_blank" id="sys-demo-link" style="display:block; margin-top:15px; color:var(--primary); text-decoration:none; font-weight:bold;">Probar Demo <i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="carrusel-dots"></div>
+        </div>
+
+        <h2 class="section-title">Clientes Recientes</h2>
+        <div class="carrusel-wrapper" id="carousel-clients">
+            <div class="carrusel-track">
+                <div class="carrusel-slide">
+                    <div class="client-card">
+                        <div class="client-img">
+                            <img id="client-1-logo" src="https://ui-avatars.com/api/?name=El+Rey&background=333&color=fff&size=128" class="client-logo-img" alt="Logo Cliente 1">
+                        </div>
+                        <h3 id="client-1-name" style="color:white; margin-bottom:5px;">Sorteos "El Rey"</h3>
+                        <p style="color:#888; font-size:0.9rem;">Sistema Implementado</p>
+                        <a id="client-1-url" href="#" target="_blank" style="margin-top:10px; color:var(--primary); font-size:0.8rem; text-decoration:none; display:inline-block;"><i class="fas fa-check-circle"></i> Ver Sitio</a>
+                    </div>
+                </div>
+                <div class="carrusel-slide">
+                    <div class="client-card">
+                        <div class="client-img">
+                            <img id="client-2-logo" src="https://ui-avatars.com/api/?name=La+Suerte&background=333&color=fff&size=128" class="client-logo-img" alt="Logo Cliente 2">
+                        </div>
+                        <h3 id="client-2-name" style="color:white; margin-bottom:5px;">Rifas La Suerte</h3>
+                        <p style="color:#888; font-size:0.9rem;">Catálogo Web</p>
+                        <a id="client-2-url" href="#" target="_blank" style="margin-top:10px; color:var(--primary); font-size:0.8rem; text-decoration:none; display:inline-block;"><i class="fas fa-check-circle"></i> Ver Sitio</a>
+                    </div>
+                </div>
+                <div class="carrusel-slide">
+                    <div class="client-card">
+                        <div class="client-img">
+                            <img id="client-3-logo" src="https://ui-avatars.com/api/?name=Don+Pepe&background=333&color=fff&size=128" class="client-logo-img" alt="Logo Cliente 3">
+                        </div>
+                        <h3 id="client-3-name" style="color:white; margin-bottom:5px;">Abarrotes "Don Pepe"</h3>
+                        <p style="color:#888; font-size:0.9rem;">Punto de Venta</p>
+                        <a id="client-3-url" href="#" target="_blank" style="margin-top:10px; color:var(--primary); font-size:0.8rem; text-decoration:none; display:inline-block;"><i class="fas fa-check-circle"></i> Ver Sitio</a>
+                    </div>
+                </div>
+            </div>
+            <div class="carrusel-dots"></div>
+        </div>
+
+        <div class="contact-hub" id="contacto-hub">
+            <div class="hub-card opinion">
+                <h3 style="color: #fff;">¿Qué opinas?</h3>
+                <p>Danos una referencia, tu opinión nos ayuda a crecer.</p>
+                <button onclick="pedirInfo('Opinion')" class="btn-hub btn-opinion">
+                    <i class="fas fa-star" style="color: gold;"></i> Dejar Opinión
+                </button>
+            </div>
+
+            <div class="hub-card contact">
+                <h3 style="color: var(--primary);">Atención Inmediata</h3>
+                <p>¿Dudas o cotizaciones? Escríbenos directo.</p>
+                <button onclick="pedirInfo('ContactoDirecto')" class="btn-hub btn-contact">
+                    <i class="fab fa-whatsapp"></i> Contactar WhatsApp
+                </button>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2026 ZONATECNO. Todos los derechos reservados.</p>
+            <p style="margin-top:10px; opacity:0.5;">Desarrollado por ZONATECNO TEAM</p>
+        </footer>
+
+        <a href="javascript:void(0)" onclick="pedirInfo('General')" class="wa-float">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+    </div>
+
+    <div id="admin-modal">
+        <div class="admin-box" id="login-view">
+            <span class="close-modal" onclick="cerrarAdmin()">×</span>
+            <h3 style="color:var(--primary); margin-bottom:15px;">ACCESO ZONATECNO</h3>
+            <input type="email" id="admin-user" class="admin-input" placeholder="Tu correo de Firebase">
+            <input type="password" id="admin-pass" class="admin-input" placeholder="Tu contraseña">
+            <button onclick="validarAcceso()" class="btn btn-primary" style="width:100%; margin-top:10px;">ENTRAR</button>
+            <p id="login-msg" style="color:red; margin-top:10px; font-size:0.8rem;"></p>
+        </div>
+
+        <div class="admin-box" id="admin-panel-view" style="display:none;">
+            <span class="close-modal" onclick="cerrarAdmin()">×</span>
+            <h3 style="color:var(--primary);">EDITOR DE CONTENIDO</h3>
+            <p style="color:#888; font-size:0.8rem; margin-bottom:15px;">Modifica los enlaces, textos y contacto</p>
+            
+            <div class="admin-separator"></div>
+            <h4 style="color:white; text-align:left; margin-bottom:5px;">CONFIGURACIÓN GENERAL</h4>
+
+            <label class="admin-label">Logo Parte 1 (Ej: ZONA):</label>
+            <input type="text" id="edit-logo1" class="admin-input">
+            
+            <label class="admin-label">Logo Parte 2 (Ej: TECNO):</label>
+            <input type="text" id="edit-logo2" class="admin-input">
+
+            <label class="admin-label">Descripción Hero:</label>
+            <textarea id="edit-hero-desc" class="admin-input" rows="3"></textarea>
+
+            <label class="admin-label">Número de WhatsApp (Sin +):</label>
+            <input type="text" id="edit-phone" class="admin-input" placeholder="Ej: 529518406318">
+
+            <div class="admin-separator"></div>
+            <h4 style="color:white; text-align:left; margin-bottom:5px;">REDES SOCIALES (Links)</h4>
+            
+            <label class="admin-label">YouTube Link:</label>
+            <input type="text" id="edit-yt" class="admin-input">
+            
+            <label class="admin-label">WhatsApp Channel Link:</label>
+            <input type="text" id="edit-wa" class="admin-input">
+            
+            <label class="admin-label">Facebook Link:</label>
+            <input type="text" id="edit-fb" class="admin-input">
+
+            <div class="admin-separator"></div>
+            <h4 style="color:white; text-align:left; margin-bottom:5px;">SITIOS WEB (Links)</h4>
+
+            <label class="admin-label">AppStore Link:</label>
+            <input type="text" id="edit-appstore" class="admin-input">
+
+            <label class="admin-label">Biblioteca Link:</label>
+            <input type="text" id="edit-biblio" class="admin-input">
+
+            <label class="admin-label">Demo Rifero Link:</label>
+            <input type="text" id="edit-demo" class="admin-input">
+
+            <div class="admin-separator"></div>
+            <h4 style="color:white; text-align:left; margin-bottom:5px;">CLIENTES RECIENTES</h4>
+
+            <label class="admin-label">Cliente 1 Nombre:</label>
+            <input type="text" id="edit-client1" class="admin-input">
+            <label class="admin-label">Cliente 1 Link:</label>
+            <input type="text" id="edit-client1-url" class="admin-input">
+            <label class="admin-label">Cliente 1 Logo (URL):</label>
+            <input type="text" id="edit-client1-logo" class="admin-input" placeholder="https://...">
+
+            <label class="admin-label">Cliente 2 Nombre:</label>
+            <input type="text" id="edit-client2" class="admin-input">
+            <label class="admin-label">Cliente 2 Link:</label>
+            <input type="text" id="edit-client2-url" class="admin-input">
+            <label class="admin-label">Cliente 2 Logo (URL):</label>
+            <input type="text" id="edit-client2-logo" class="admin-input" placeholder="https://...">
+
+            <label class="admin-label">Cliente 3 Nombre:</label>
+            <input type="text" id="edit-client3" class="admin-input">
+            <label class="admin-label">Cliente 3 Link:</label>
+            <input type="text" id="edit-client3-url" class="admin-input">
+            <label class="admin-label">Cliente 3 Logo (URL):</label>
+            <input type="text" id="edit-client3-logo" class="admin-input" placeholder="https://...">
+
+            <button onclick="guardarFirebase()" class="btn btn-primary" style="width:100%; margin-top:15px;">GUARDAR CAMBIOS</button>
+            <button onclick="cerrarSesion()" class="btn btn-outline" style="width:100%; margin-top:10px;">CERRAR SESIÓN</button>
+        </div>
+    </div>
+
+    <script>
+        // Variable global para el teléfono
+        window.globalPhone = "529518406318";
+
+        function pedirInfo(servicio) {
+            let mensaje = "";
+            if(servicio === 'Invitaciones') {
+                mensaje = "Hola ZONATECNO, me interesan las *Invitaciones Digitales*.";
+            } else if (servicio === 'Codigos Amor') {
+                mensaje = "Hola, quiero saber más sobre los *Códigos de Amor*.";
+            } else if (servicio === 'Desarrollo Web') {
+                mensaje = "Hola ZONATECNO, quiero cotizar un *Desarrollo Web*.";
+            } else if (servicio === 'Opinion') {
+                mensaje = "Hola ZONATECNO, me gustaría dejar una *Opinión/Referencia* sobre sus servicios: ";
+            } else if (servicio === 'ContactoDirecto') {
+                mensaje = "Hola, necesito atención personalizada.";
+            } else {
+                mensaje = "Hola ZONATECNO, tengo una duda general.";
+            }
+            window.open(`https://wa.me/${window.globalPhone}?text=${encodeURIComponent(mensaje)}`, '_blank');
+        }
+
+        function initCarousel(id) {
+            const wrapper = document.getElementById(id);
+            if(!wrapper) return;
+            const track = wrapper.querySelector('.carrusel-track');
+            const slides = wrapper.querySelectorAll('.carrusel-slide');
+            const dotsContainer = wrapper.querySelector('.carrusel-dots');
+            let index = 0;
+            let interval;
+            
+            dotsContainer.innerHTML = '';
+
+            slides.forEach((_, i) => {
+                const dot = document.createElement('div');
+                dot.classList.add('dot');
+                if (i === 0) dot.classList.add('active');
+                dot.addEventListener('click', () => goToSlide(i));
+                dotsContainer.appendChild(dot);
+            });
+            const dots = dotsContainer.querySelectorAll('.dot');
+            function updateSlide() {
+                track.style.transform = `translateX(-${index * 100}%)`;
+                dots.forEach(d => d.classList.remove('active'));
+                if(dots[index]) dots[index].classList.add('active');
+            }
+            function nextSlide() {
+                index = (index + 1) % slides.length;
+                updateSlide();
+            }
+            function goToSlide(i) {
+                index = i;
+                updateSlide();
+                resetTimer();
+            }
+            function startTimer() {
+                interval = setInterval(nextSlide, 3500);
+            }
+            function resetTimer() {
+                clearInterval(interval);
+                startTimer();
+            }
+            startTimer();
+        }
+    </script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCHWAndZjNBqu4V260nrxKyzFtxExnpCOI",
+            authDomain: "zonatecno-c34ab.firebaseapp.com",
+            databaseURL: "https://zonatecno-c34ab-default-rtdb.firebaseio.com",
+            projectId: "zonatecno-c34ab",
+            storageBucket: "zonatecno-c34ab.firebasestorage.app",
+            messagingSenderId: "1037292030188",
+            appId: "1:1037292030188:web:ca40e911a12e660370fdc9"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const contentRef = ref(db, 'contenido_sitio');
+
+        // --- LÓGICA DE CARGA DE DATOS AL INICIAR ---
+        onValue(contentRef, (snapshot) => {
+            const data = snapshot.val();
+            
+            if (data) {
+                // Si hay datos en Firebase, actualizamos el sitio
+                // General
+                if(data.general) {
+                    if(data.general.logo1) document.getElementById('logo-part-1').innerText = data.general.logo1;
+                    if(data.general.logo2) document.getElementById('logo-part-2').innerText = data.general.logo2;
+                    if(data.general.heroDesc) document.getElementById('hero-txt').innerText = data.general.heroDesc;
+                    if(data.general.phone) window.globalPhone = data.general.phone;
+                }
+
+                // Social
+                if(data.social) {
+                    if(data.social.yt) document.getElementById('social-yt-link').href = data.social.yt;
+                    if(data.social.wa) document.getElementById('social-wa-link').href = data.social.wa;
+                    if(data.social.fb) document.getElementById('social-fb-link').href = data.social.fb;
+                }
+
+                // Webs
+                if(data.webs) {
+                    if(data.webs.appstore) document.getElementById('sys-appstore-link').href = data.webs.appstore;
+                    if(data.webs.biblio) document.getElementById('sys-biblio-link').href = data.webs.biblio;
+                    if(data.webs.demo) document.getElementById('sys-demo-link').href = data.webs.demo;
+                }
+
+                // Clientes
+                if(data.clients) {
+                    // Cliente 1
+                    if(data.clients.c1_name) document.getElementById('client-1-name').innerText = data.clients.c1_name;
+                    if(data.clients.c1_url) document.getElementById('client-1-url').href = data.clients.c1_url;
+                    if(data.clients.c1_logo) document.getElementById('client-1-logo').src = data.clients.c1_logo;
+                    // Cliente 2
+                    if(data.clients.c2_name) document.getElementById('client-2-name').innerText = data.clients.c2_name;
+                    if(data.clients.c2_url) document.getElementById('client-2-url').href = data.clients.c2_url;
+                    if(data.clients.c2_logo) document.getElementById('client-2-logo').src = data.clients.c2_logo;
+                    // Cliente 3
+                    if(data.clients.c3_name) document.getElementById('client-3-name').innerText = data.clients.c3_name;
+                    if(data.clients.c3_url) document.getElementById('client-3-url').href = data.clients.c3_url;
+                    if(data.clients.c3_logo) document.getElementById('client-3-logo').src = data.clients.c3_logo;
+                }
+            }
+
+            // --- OCULTAR SKELETON Y MOSTRAR SITIO ---
+            const skeleton = document.getElementById('skeleton-screen');
+            const content = document.getElementById('main-content');
+            
+            if(skeleton && content) {
+                skeleton.style.display = 'none';
+                content.style.opacity = '1';
+                // Iniciamos carruseles una vez que el DOM está visible y actualizado
+                initCarousel('carousel-social');
+                initCarousel('carousel-services');
+                initCarousel('carousel-systems'); 
+                initCarousel('carousel-clients');
+            }
+        });
+
+        // --- FUNCIONES DEL ADMIN ---
+        window.abrirAdmin = function() {
+            document.getElementById('admin-modal').style.display = 'flex';
+        }
+
+        window.cerrarAdmin = function() {
+            document.getElementById('admin-modal').style.display = 'none';
+            document.getElementById('login-msg').innerText = "";
+        }
+
+        window.validarAcceso = function() {
+            const u = document.getElementById('admin-user').value.trim();
+            const p = document.getElementById('admin-pass').value.trim();
+            const msg = document.getElementById('login-msg');
+
+            if(u !== "" && p !== "") {
+                document.getElementById('login-view').style.display = 'none';
+                document.getElementById('admin-panel-view').style.display = 'block';
+                
+                // Cargar valores actuales del DOM a los Inputs
+                document.getElementById('edit-logo1').value = document.getElementById('logo-part-1').innerText;
+                document.getElementById('edit-logo2').value = document.getElementById('logo-part-2').innerText;
+                document.getElementById('edit-hero-desc').value = document.getElementById('hero-txt').innerText;
+                document.getElementById('edit-phone').value = window.globalPhone;
+
+                document.getElementById('edit-yt').value = document.getElementById('social-yt-link').href;
+                document.getElementById('edit-wa').value = document.getElementById('social-wa-link').href;
+                document.getElementById('edit-fb').value = document.getElementById('social-fb-link').href;
+                
+                document.getElementById('edit-appstore').value = document.getElementById('sys-appstore-link').href;
+                document.getElementById('edit-biblio').value = document.getElementById('sys-biblio-link').href;
+                document.getElementById('edit-demo').value = document.getElementById('sys-demo-link').href;
+
+                document.getElementById('edit-client1').value = document.getElementById('client-1-name').innerText;
+                document.getElementById('edit-client1-url').value = document.getElementById('client-1-url').href;
+                document.getElementById('edit-client1-logo').value = document.getElementById('client-1-logo').src;
+                
+                document.getElementById('edit-client2').value = document.getElementById('client-2-name').innerText;
+                document.getElementById('edit-client2-url').value = document.getElementById('client-2-url').href;
+                document.getElementById('edit-client2-logo').value = document.getElementById('client-2-logo').src;
+
+                document.getElementById('edit-client3').value = document.getElementById('client-3-name').innerText;
+                document.getElementById('edit-client3-url').value = document.getElementById('client-3-url').href;
+                document.getElementById('edit-client3-logo').value = document.getElementById('client-3-logo').src;
+
+            } else {
+                msg.innerText = "Por favor, ingresa tus datos de acceso.";
+            }
+        }
+
+        window.cerrarSesion = function() {
+            document.getElementById('admin-user').value = "";
+            document.getElementById('admin-pass').value = "";
+            document.getElementById('admin-panel-view').style.display = 'none';
+            document.getElementById('login-view').style.display = 'block';
+            cerrarAdmin();
+        }
+
+        window.guardarFirebase = function() {
+            // Objeto con toda la data para guardar
+            const updateData = {
+                general: {
+                    logo1: document.getElementById('edit-logo1').value,
+                    logo2: document.getElementById('edit-logo2').value,
+                    heroDesc: document.getElementById('edit-hero-desc').value,
+                    phone: document.getElementById('edit-phone').value
+                },
+                social: {
+                    yt: document.getElementById('edit-yt').value,
+                    wa: document.getElementById('edit-wa').value,
+                    fb: document.getElementById('edit-fb').value
+                },
+                webs: {
+                    appstore: document.getElementById('edit-appstore').value,
+                    biblio: document.getElementById('edit-biblio').value,
+                    demo: document.getElementById('edit-demo').value
+                },
+                clients: {
+                    c1_name: document.getElementById('edit-client1').value,
+                    c1_url: document.getElementById('edit-client1-url').value,
+                    c1_logo: document.getElementById('edit-client1-logo').value,
+                    c2_name: document.getElementById('edit-client2').value,
+                    c2_url: document.getElementById('edit-client2-url').value,
+                    c2_logo: document.getElementById('edit-client2-logo').value,
+                    c3_name: document.getElementById('edit-client3').value,
+                    c3_url: document.getElementById('edit-client3-url').value,
+                    c3_logo: document.getElementById('edit-client3-logo').value
+                }
+            };
+
+            // ESCRITURA REAL A FIREBASE
+            set(contentRef, updateData)
+                .then(() => {
+                    alert("¡Cambios guardados en la Nube correctamente!");
+                    cerrarAdmin();
+                })
+                .catch((error) => {
+                    alert("Error al guardar: " + error.message);
+                });
+        }
+    </script>
+</body>
+</html>
