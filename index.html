@@ -211,14 +211,14 @@
         }
         .dot.active { background: var(--primary); }
 
-        /* --- NUEVOS MÓDULOS CATÁLOGO/SISTEMAS ESTILO NEÓN --- */
+        
+                /* --- NUEVOS MÓDULOS CATÁLOGO/SISTEMAS ESTILO NEÓN --- */
         .neon-vertical-box {
             background: transparent;
-            border: 1px solid var(--primary);
-            box-shadow: 0 0 15px var(--primary-glow), inset 0 0 15px var(--primary-glow);
-            border-radius: 15px;
-            padding: 20px 10px;
-            max-width: 400px;
+            border: none;
+            box-shadow: none;
+            padding: 10px 0;
+            max-width: 100%;
             margin: 0 auto 40px;
             position: relative;
         }
@@ -228,32 +228,51 @@
             scroll-snap-type: x mandatory;
             scroll-behavior: smooth;
             -webkit-overflow-scrolling: touch;
-            gap: 15px;
-            padding-bottom: 20px;
+            gap: 0;
+            padding: 20px 15%;
         }
         .catalog-carousel::-webkit-scrollbar { display: none; }
         .catalog-item {
-            min-width: 100%;
+            min-width: 70%;
             scroll-snap-align: center;
             background: transparent;
             border: none;
-            border-radius: 10px;
-            padding: 15px;
+            padding: 0 10px;
             text-align: center;
             display: flex;
             flex-direction: column;
             align-items: center;
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            opacity: 0.3;
+            transform: scale(0.75);
+            filter: blur(4px);
+            z-index: 1;
         }
-        .catalog-img {
+        .catalog-item.active-item {
+            opacity: 1;
+            transform: scale(1);
+            filter: blur(0);
+            z-index: 2;
+        }
+
+               .catalog-img {
             width: 100%;
-            height: 350px;
-            object-fit: contain;
-            border-radius: 8px;
-            margin-bottom: 15px;
+            height: auto;
+            max-height: 450px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 20px;
             cursor: pointer;
-            border: none;
+            border: 2px solid transparent;
             background: transparent;
+            transition: all 0.5s ease;
         }
+
+        .active-item .catalog-img {
+            border: 2px solid var(--primary);
+            box-shadow: 0 0 30px var(--primary-glow), inset 0 0 10px var(--primary-glow);
+        }
+
         .catalog-title { color: var(--text-main); font-size: 1.4rem; margin-bottom: 5px; text-transform: uppercase; }
         .catalog-desc { color: var(--text-sec); font-size: 1rem; margin-bottom: 15px; flex-grow: 1; }
 
@@ -441,6 +460,16 @@
             </div>
         </header>
 
+        <div id="wrapper-apps-digitales" style="display: none;">
+            <h2 class="section-title">Nuestras Apps</h2>
+            <div class="neon-vertical-box">
+                <p style="text-align: center; color: var(--primary); font-size: 0.85rem; margin-bottom: 10px;">(Descarga directa de APKs)</p>
+                <div class="catalog-carousel" id="carousel-apps-digitales">
+                    </div>
+                <div class="carrusel-dots" id="dots-apps-digitales"></div>
+            </div>
+        </div>
+
         <h2 class="section-title">Nuestra Comunidad</h2>
         <div class="carrusel-wrapper" id="carousel-social">
             <div class="carrusel-track">
@@ -479,14 +508,16 @@
                 </div>
             <div class="carrusel-dots" id="dots-catalogo-digital"></div>
         </div>
-
-        <h2 class="section-title">Sistemas Desarrollados</h2>
-        <p style="text-align: center; color: var(--text-sec); margin-top: -15px; margin-bottom: 20px;">Top 4 sistemas recientes de nuestros clientes </p>
-        <div class="neon-vertical-box">
-            <p style="text-align: center; color: var(--primary); font-size: 0.85rem; margin-bottom: 10px;">(Da clic en la imagen para ir al sitio)</p>
-            <div class="catalog-carousel" id="carousel-sistemas-desarrollados">
-                </div>
-            <div class="carrusel-dots" id="dots-sistemas-desarrollados"></div>
+       
+                <div id="wrapper-sistemas-desarrollados">
+            <h2 class="section-title">Sistemas Desarrollados</h2>
+            <p style="text-align: center; color: var(--text-sec); margin-top: -15px; margin-bottom: 20px;">Top 4 sistemas recientes de nuestros clientes </p>
+            <div class="neon-vertical-box">
+                <p style="text-align: center; color: var(--primary); font-size: 0.85rem; margin-bottom: 10px;">(Da clic en la imagen para ir al sitio)</p>
+                <div class="catalog-carousel" id="carousel-sistemas-desarrollados">
+                    </div>
+                <div class="carrusel-dots" id="dots-sistemas-desarrollados"></div>
+            </div>
         </div>
 
         <div class="contact-hub" id="contacto-hub">
@@ -554,6 +585,11 @@
             <label class="admin-label">Número de WhatsApp (Sin +):</label>
             <input type="text" id="edit-phone" class="admin-input" placeholder="Ej: 529518406318">
 
+            <label class="admin-label" style="display:flex; align-items:center; gap:10px; margin-top:15px; cursor:pointer;">
+                <input type="checkbox" id="edit-show-sistemas" style="width:18px; height:18px;">
+                Mostrar sección "Sistemas Desarrollados"
+            </label>
+
             <div class="admin-separator"></div>
             <h4 style="color:white; text-align:left; margin-bottom:5px;">REDES SOCIALES (Links)</h4>
             
@@ -574,11 +610,13 @@
             <span class="close-modal" onclick="cerrarAdmin()">×</span>
             <h3 id="pub-title" style="color:var(--primary); margin-bottom:15px;">PUBLICAR MÓDULO</h3>
             
-            <label class="admin-label">Sección de destino:</label>
+                        <label class="admin-label">Sección de destino:</label>
             <select id="pub-seccion" class="admin-input">
                 <option value="catalogo_lista">Catálogo Digital</option>
                 <option value="sistemas_lista">Sistemas Desarrollados</option>
+                <option value="apps_lista">Nuestras Apps (APKs)</option>
             </select>
+
 
             <label class="admin-label">Nombre del elemento:</label>
             <input type="text" id="pub-nombre" class="admin-input" placeholder="Ej: Sistema de Rifas">
@@ -666,7 +704,7 @@
             resetTimer(); 
         }
 
-        // --- NUEVOS CARRUSELES NEÓN (AUTO-SCROLL Y TÁCTIL) ---
+                // --- NUEVOS CARRUSELES NEÓN (AUTO-SCROLL Y TÁCTIL) ---
         function initNeonCarousel(id, dotsId) {
             const container = document.getElementById(id);
             const dotsContainer = document.getElementById(dotsId);
@@ -679,9 +717,11 @@
                     // Bucle: si llega al final, regresa al inicio, si no, avanza
                     if (container.scrollWidth - container.scrollLeft <= container.clientWidth + 10) {
                         container.scrollTo({ left: 0, behavior: 'smooth' });
-                    } else {
-                        container.scrollBy({ left: container.clientWidth, behavior: 'smooth' });
+                                        } else {
+                        const item = container.querySelector('.catalog-item');
+                        if(item) container.scrollBy({ left: item.offsetWidth, behavior: 'smooth' });
                     }
+
                     updateDots();
                 }, 4000);
             }
@@ -696,17 +736,33 @@
                 const dots = dotsContainer.querySelectorAll('.dot');
                 if(items.length === 0 || dots.length === 0) return;
                 
-                let index = Math.round(container.scrollLeft / container.clientWidth);
+                let centerPos = container.scrollLeft + container.clientWidth / 2;
+                let index = 0;
+                let minDiff = Infinity;
+                items.forEach((item, i) => {
+                    let itemCenter = item.offsetLeft + (item.offsetWidth / 2);
+                    let diff = Math.abs(centerPos - itemCenter);
+                    if(diff < minDiff) {
+                        minDiff = diff;
+                        index = i;
+                    }
+                });
+
                 dots.forEach(d => d.classList.remove('active'));
+                items.forEach(i => i.classList.remove('active-item'));
+                
                 if(dots[index]) dots[index].classList.add('active');
+                if(items[index]) items[index].classList.add('active-item');
             }
 
             container.addEventListener('scroll', updateDots);
             container.addEventListener('touchstart', () => { if(interval) clearInterval(interval); }, {passive: true});
             container.addEventListener('touchend', resetTimer, {passive: true});
 
+            setTimeout(updateDots, 100);
             resetTimer();
         }
+
 
         // --- RENDERIZADO DINÁMICO DE CATÁLOGOS ---
         function renderCatalogoList(containerId, dotsId, listData) {
@@ -727,12 +783,15 @@
                 const div = document.createElement('div');
                 div.className = 'catalog-item';
                 
-                let buttonHtml = '';
+                                let buttonHtml = '';
                 if (containerId === 'carousel-sistemas-desarrollados') {
                     buttonHtml = `<button class="btn btn-outline" style="width:100%; font-size:0.9rem; padding:10px; font-weight:bold;" onclick="window.open('${item.link}', '_blank')">Visitar Sitio Web</button>`;
+                } else if (containerId === 'carousel-apps-digitales') {
+                    buttonHtml = `<button class="btn btn-primary" style="width:100%; font-size:0.9rem; padding:10px; font-weight:bold; color:#000;" onclick="window.open('${item.link}', '_blank')"><i class="fas fa-download"></i> Descargar APK</button>`;
                 } else {
                     buttonHtml = `<button class="btn btn-outline" style="width:100%; font-size:0.9rem; padding:10px; font-weight:bold;" onclick="pedirInfo('Consultar precio: ${item.nombre}')">Consultar Precios</button>`;
                 }
+
 
                 div.innerHTML = `
                     <img src="${item.img}" class="catalog-img" onclick="window.open('${item.link}', '_blank')" alt="${item.nombre}" title="Clic para ir al sistema">
@@ -745,9 +804,10 @@
                 const dot = document.createElement('div');
                 dot.className = 'dot';
                 if(index === 0) dot.classList.add('active');
-                dot.onclick = () => {
-                    container.scrollTo({ left: container.clientWidth * index, behavior: 'smooth' });
+                                dot.onclick = () => {
+                    container.scrollTo({ left: div.offsetLeft - (container.clientWidth / 2) + (div.offsetWidth / 2), behavior: 'smooth' });
                 };
+
                 dotsContainer.appendChild(dot);
             });
             
@@ -784,12 +844,17 @@
             if (data) {
                 globalSiteData = data;
                 
-                // General
+                               // General
                 if(data.general) {
                     if(data.general.logo1) document.getElementById('logo-part-1').innerText = data.general.logo1;
                     if(data.general.logo2) document.getElementById('logo-part-2').innerText = data.general.logo2;
                     if(data.general.heroDesc) document.getElementById('hero-txt').innerText = data.general.heroDesc;
                     if(data.general.phone) window.globalPhone = data.general.phone;
+                    
+                    const wrapperSistemas = document.getElementById('wrapper-sistemas-desarrollados');
+                    if(wrapperSistemas) {
+                        wrapperSistemas.style.display = (data.general.showSistemas === false) ? 'none' : 'block';
+                    }
                 }
 
                 // Social
@@ -799,12 +864,19 @@
                     if(data.social.fb) document.getElementById('social-fb-link').href = data.social.fb;
                 }
 
-                // Generar los nuevos módulos dinámicos
+                               // Generar los nuevos módulos dinámicos
                 renderCatalogoList('carousel-catalogo-digital', 'dots-catalogo-digital', data.catalogo_lista);
                 renderCatalogoList('carousel-sistemas-desarrollados', 'dots-sistemas-desarrollados', data.sistemas_lista);
+                renderCatalogoList('carousel-apps-digitales', 'dots-apps-digitales', data.apps_lista);
+                
+                const wrapperApps = document.getElementById('wrapper-apps-digitales');
+                if(wrapperApps) {
+                    wrapperApps.style.display = (data.apps_lista && Object.keys(data.apps_lista).length > 0) ? 'block' : 'none';
+                }
                 
                 // Actualizar lista en panel admin
                 renderAdminList(data);
+
             }
 
             // --- OCULTAR SKELETON Y MOSTRAR SITIO ---
@@ -845,10 +917,12 @@
                 }
             };
 
-            addItems(data.catalogo_lista, 'Catálogo Digital', 'catalogo_lista');
+                        addItems(data.catalogo_lista, 'Catálogo Digital', 'catalogo_lista');
             addItems(data.sistemas_lista, 'Sistemas Desarrollados', 'sistemas_lista');
+            addItems(data.apps_lista, 'Nuestras Apps', 'apps_lista');
             
             if(listContainer.innerHTML === '') {
+
                 listContainer.innerHTML = '<p style="color:#888; font-size:0.8rem; text-align:center;">No hay módulos publicados.</p>';
             }
         }
@@ -879,6 +953,8 @@
                 document.getElementById('edit-hero-desc').value = document.getElementById('hero-txt').innerText;
                 document.getElementById('edit-phone').value = window.globalPhone;
 
+                document.getElementById('edit-show-sistemas').checked = (globalSiteData && globalSiteData.general && globalSiteData.general.showSistemas !== false);
+
                 document.getElementById('edit-yt').value = document.getElementById('social-yt-link').href;
                 document.getElementById('edit-wa').value = document.getElementById('social-wa-link').href;
                 document.getElementById('edit-fb').value = document.getElementById('social-fb-link').href;
@@ -900,12 +976,14 @@
         window.guardarFirebase = function() {
             const updates = {};
             
-            updates['/contenido_sitio/general'] = {
+                        updates['/contenido_sitio/general'] = {
                 logo1: document.getElementById('edit-logo1').value,
                 logo2: document.getElementById('edit-logo2').value,
                 heroDesc: document.getElementById('edit-hero-desc').value,
-                phone: document.getElementById('edit-phone').value
+                phone: document.getElementById('edit-phone').value,
+                showSistemas: document.getElementById('edit-show-sistemas').checked
             };
+
             
             updates['/contenido_sitio/social'] = {
                 yt: document.getElementById('edit-yt').value,
@@ -1025,4 +1103,3 @@
     </script>
 </body>
 </html>
-
