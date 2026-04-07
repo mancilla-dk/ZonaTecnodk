@@ -652,6 +652,112 @@
         </div>
 
         <div class="contact-hub" id="contacto-hub">
+                    <div id="wrapper-cuestionario" style="display:none; max-width: 800px; margin: 0 auto 60px; padding: 20px;">
+            <h2 class="section-title">EVALUACIÓN DE INGRESO SOCIO</h2>
+            <div class="hub-card" style="text-align: left; padding: 30px; border: 1px solid var(--primary); background: #121212;">
+                <p style="color: #bbb; margin-bottom: 20px;">Por favor, responde con atención a las siguientes 12 preguntas de la capacitación para validar tu acceso.</p>
+                <form id="form-evaluacion" onsubmit="enviarCuestionario(event)">
+                    
+                    <label class="admin-label">Tu Nombre Completo:</label>
+                    <input type="text" name="c_nombre" class="admin-input" placeholder="Ej: Carlos Mendoza" required>
+                    
+                    <label class="admin-label">WhatsApp de Contacto:</label>
+                    <input type="tel" name="c_wa" class="admin-input" placeholder="+52 ..." required>
+
+                    <div class="admin-separator"></div>
+
+                                        <label class="admin-label">1. ¿Diferencia entre comisión única y recurrente?</label>
+                    <select name="c_p1" class="admin-input" required>
+                        <option value="" disabled selected>Elige una opción...</option>
+                        <option value="A">A) Única es por vender rifas, recurrente por invitar socios.</option>
+                        <option value="B">B) Única es 1 solo pago inmediato, recurrente es ingreso pasivo mes a mes.</option>
+                        <option value="C">C) Única es para el administrador, recurrente es para el socio.</option>
+                    </select>
+
+                    <label class="admin-label">2. Si el plan oficial es $1,200 y tú lo vendes en $1,599, ¿cuánto te quedas?</label>
+                    <select name="c_p2" class="admin-input" required>
+                        <option value="" disabled selected>Elige una opción...</option>
+                        <option value="A">A) Solo me quedo con $399.</option>
+                        <option value="B">B) Me quedo con $639 ($399 de sobreprecio + $240 de comisión base).</option>
+                        <option value="C">C) Solo me quedo con el 20% de $1,599.</option>
+                    </select>
+
+                    <label class="admin-label">3. ¿Cuántas ventas debes lograr en 7 días para el Modo Matraca y a cuánto sube?</label>
+                    <select name="c_p3" class="admin-input" required>
+                        <option value="" disabled selected>Elige una opción...</option>
+                        <option value="A">A) 12 ventas. Sube a 30% directo y 10% recurrente.</option>
+                        <option value="B">B) 10 ventas. Sube a 40% directo y 20% recurrente.</option>
+                        <option value="C">C) 5 ventas. Sube a 50% directo.</option>
+                    </select>
+
+                    <label class="admin-label">4. ¿Quién es la ÚNICA persona autorizada para recibir el pago del cliente final?</label>
+                    <select name="c_p4" class="admin-input" required>
+                        <option value="" disabled selected>Elige una opción...</option>
+                        <option value="A">A) Yo, en mi cuenta personal y luego paso el resto.</option>
+                        <option value="B">B) Cualquiera de los dos puede cobrar.</option>
+                        <option value="C">C) Solo el Administrador en las cuentas oficiales de la empresa.</option>
+                    </select>
+
+                    <label class="admin-label">5. ¿Qué pasa si pasas 2 meses consecutivos sin registrar ventas?</label>
+                    <select name="c_p5" class="admin-input" required>
+                        <option value="" disabled selected>Elige una opción...</option>
+                        <option value="A">A) Me cobran una multa.</option>
+                        <option value="B">B) Mi cuenta de socio será dada de baja del sistema.</option>
+                        <option value="C">C) Solo me bajan la comisión al 5%.</option>
+                    </select>
+
+                    <label class="admin-label">6. ¿Cuál es la promoción que ofreces para el Plan Despegue ($700)?</label>
+                    <select name="c_p6" class="admin-input" required>
+                        <option value="" disabled selected>Elige una opción...</option>
+                        <option value="A">A) $100 de descuento el primer mes.</option>
+                        <option value="B">B) 1 mes adicional completamente gratis.</option>
+                        <option value="C">C) 3 meses gratis.</option>
+                    </select>
+
+                    <label class="admin-label">7. Si vendes Invitaciones por $200, ¿cuántas puede crear el cliente el 1er mes?</label>
+                    <select name="c_p7" class="admin-input" required>
+                        <option value="" disabled selected>Elige una opción...</option>
+                        <option value="A">A) 6 invitaciones.</option>
+                        <option value="B">B) 4 invitaciones.</option>
+                        <option value="C">C) Ilimitadas.</option>
+                    </select>
+
+                    <label class="admin-label">8. ¿Cuáles son los datos a registrar en tu panel ANTES del pago?</label>
+                    <select name="c_p8" class="admin-input" required>
+                        <option value="" disabled selected>Elige una opción...</option>
+                        <option value="A">A) Nombre y edad.</option>
+                        <option value="B">B) Solo el correo y si quiere dominio.</option>
+                        <option value="C">C) Nombre titular, WhatsApp exacto, datos del proyecto y Precio Final.</option>
+                    </select>
+
+                    <label class="admin-label">9. ¿Qué hacer si la venta lleva más de 10 min en Fase 1 - Pendiente?</label>
+                    <select name="c_p9" class="admin-input" required>
+                        <option value="" disabled selected>Elige una opción...</option>
+                        <option value="A">A) Presionar el botón rojo de alerta y enviarle el texto al administrador.</option>
+                        <option value="B">B) Cobrarle yo mismo para no perder la venta.</option>
+                        <option value="C">C) Esperar al día siguiente.</option>
+                    </select>
+
+                    <label class="admin-label">10. ¿De qué color debe estar tu saldo para retirar a tu banco?</label>
+                    <select name="c_p10" class="admin-input" required>
+                        <option value="" disabled selected>Elige una opción...</option>
+                        <option value="A">A) Naranja (Comisiones pendientes).</option>
+                        <option value="B">B) Azul (En revisión).</option>
+                        <option value="C">C) Verde (Saldo Disponible Fase 3).</option>
+                    </select>
+
+
+                    <label class="admin-label">11. Correo electrónico y contraseña deseados (Ej: juan@gmail.com / Juan123):</label>
+                    <input type="text" name="c_cred" class="admin-input" required>
+
+                    <label class="admin-label">12. ¿Aceptas los términos y condiciones y el no cobrar a clientes por fuera? (Sí/No):</label>
+                    <input type="text" name="c_terms" class="admin-input" required>
+
+                    <button type="submit" id="btn-enviar-cuest" class="btn btn-primary" style="width:100%; margin-top:20px; font-size:1.1rem; text-transform:uppercase;">ENVIAR EVALUACIÓN</button>
+                </form>
+            </div>
+        </div>
+
             <div class="hub-card opinion">
                 <h3 style="color: #fff;">¿Qué opinas?</h3>
                 <p>Danos una referencia, tu opinión nos ayuda a crecer.</p>
@@ -695,7 +801,9 @@
             <p style="color:#888; font-size:0.8rem; margin-bottom:15px;">Modifica los enlaces, textos y contacto</p>
 
             <button onclick="abrirPublicarCatalogo()" class="btn btn-outline" style="width:100%; margin-bottom:15px; border-color:var(--primary); color:var(--primary);">NUEVO MÓDULO (CATÁLOGO/SISTEMA)</button>
-            
+                        <button onclick="copiarLinkCuestionario()" class="btn btn-outline" style="width:100%; margin-bottom:10px; border-color:#fff; color:#fff;"><i class="fas fa-link"></i> COPIAR LINK DE EVALUACIÓN</button>
+            <button onclick="abrirRespuestasCuestionario()" class="btn btn-outline" style="width:100%; margin-bottom:15px; border-color:#00ff88; background: rgba(0,255,136,0.1); color:#00ff88;"><i class="fas fa-list"></i> VER EVALUACIONES RECIBIDAS</button>
+
             <div class="admin-separator"></div>
             <h4 style="color:white; text-align:left; margin-bottom:10px;">GESTIONAR MÓDULOS PUBLICADOS</h4>
             <div id="admin-modules-list" style="max-height: 250px; overflow-y: auto; margin-bottom: 15px; padding-right:5px;">
@@ -765,6 +873,15 @@
             <button onclick="volverAdminPanel()" class="btn btn-outline" style="width:100%; margin-top:10px;">VOLVER</button>
             <p id="pub-msg" style="color:var(--primary); margin-top:10px; font-size:0.8rem;"></p>
         </div>
+                <div class="admin-box" id="admin-respuestas-view" style="display:none; max-width: 700px; width: 95%;">
+            <span class="close-modal" onclick="cerrarAdmin()">×</span>
+            <h3 style="color:var(--primary); margin-bottom:15px;">EVALUACIONES DE SOCIOS</h3>
+            <button onclick="volverAdminPanelDesdeRespuestas()" class="btn btn-outline" style="width:100%; margin-bottom:15px;">VOLVER AL PANEL</button>
+            <div id="lista-respuestas-socios" style="text-align: left; max-height: 60vh; overflow-y: auto;">
+                <p style="color:#888; text-align:center;">Cargando respuestas...</p>
+            </div>
+        </div>
+
     </div>
     <script>
         // Variable global para el teléfono
@@ -974,6 +1091,83 @@
             
             initNeonCarousel(containerId, dotsId);
         }
+                
+        // --- LOGICA DE CUESTIONARIO ---
+        window.addEventListener('DOMContentLoaded', () => {
+            if(window.location.hash === '#cuestionario') {
+                document.querySelector('.hero').style.display = 'none';
+                if(document.getElementById('wrapper-apps-digitales')) document.getElementById('wrapper-apps-digitales').style.display = 'none';
+                document.getElementById('carousel-social').style.display = 'none';
+                document.getElementById('servicios').style.display = 'none';
+                const cajasNeon = document.querySelectorAll('.neon-vertical-box');
+                cajasNeon.forEach(c => c.style.display = 'none');
+                if(document.getElementById('wrapper-sistemas-desarrollados')) document.getElementById('wrapper-sistemas-desarrollados').style.display = 'none';
+                document.getElementById('wrapper-socio').style.display = 'none';
+                document.getElementById('contacto-hub').style.display = 'none';
+                
+                const cuestionario = document.getElementById('wrapper-cuestionario');
+                if(cuestionario) cuestionario.style.display = 'block';
+            }
+        });
+
+        window.copiarLinkCuestionario = function() {
+            const url = window.location.href.split('#')[0] + '#cuestionario';
+            navigator.clipboard.writeText(url).then(() => {
+                alert("¡Link copiado con éxito!\n\nEnvíalo a tu prospecto para que llene la evaluación:\n" + url);
+            });
+        }
+
+        window.abrirRespuestasCuestionario = function() {
+            document.getElementById('admin-panel-view').style.display = 'none';
+            document.getElementById('admin-respuestas-view').style.display = 'block';
+        }
+
+        window.volverAdminPanelDesdeRespuestas = function() {
+            document.getElementById('admin-respuestas-view').style.display = 'none';
+            document.getElementById('admin-panel-view').style.display = 'block';
+        }
+
+                window.enviarCuestionario = function(event) {
+            event.preventDefault();
+            const f = event.target;
+            
+            const respuestasUsuario = {
+                p1: f.c_p1.value, p2: f.c_p2.value, p3: f.c_p3.value, p4: f.c_p4.value, p5: f.c_p5.value,
+                p6: f.c_p6.value, p7: f.c_p7.value, p8: f.c_p8.value, p9: f.c_p9.value, p10: f.c_p10.value
+            };
+            
+            const correctas = { p1: 'B', p2: 'B', p3: 'A', p4: 'C', p5: 'B', p6: 'B', p7: 'A', p8: 'C', p9: 'A', p10: 'C' };
+            let puntaje = 0;
+            const calificacion = {};
+
+            for (let i = 1; i <= 10; i++) {
+                let key = 'p' + i;
+                if (respuestasUsuario[key] === correctas[key]) {
+                    puntaje++;
+                    calificacion[key] = respuestasUsuario[key] + " ✅";
+                } else {
+                    calificacion[key] = respuestasUsuario[key] + " ❌ (Correcta era: " + correctas[key] + ")";
+                }
+            }
+
+            const payload = {
+                nombre: f.c_nombre.value,
+                whatsapp: f.c_wa.value,
+                fecha: new Date().toLocaleString(),
+                puntaje: puntaje,
+                respuestas: calificacion,
+                credenciales: f.c_cred.value, 
+                terminos: f.c_terms.value
+            };
+            
+            document.getElementById('btn-enviar-cuest').innerText = "ENVIANDO...";
+            document.getElementById('btn-enviar-cuest').disabled = true;
+            
+            if(window.guardarRespuestasFirebase) {
+                window.guardarRespuestasFirebase(payload);
+            }
+        }
+
     </script>
 
     <script type="module">
@@ -1261,6 +1455,64 @@
                 msg.innerText = "Error: " + error.message;
             });
         }
+                
+        // --- FIREBASE CUESTIONARIO SOCIOS ---
+        window.guardarRespuestasFirebase = function(data) {
+            const newRef = push(ref(db, 'respuestas_socios'));
+            set(newRef, data).then(() => {
+                alert("¡Respuestas enviadas correctamente! El administrador revisará tu perfil.");
+                window.location.hash = '';
+                window.location.reload();
+            }).catch((err) => {
+                alert("Error al enviar: " + err.message);
+                document.getElementById('btn-enviar-cuest').innerText = "ENVIAR EVALUACIÓN";
+                document.getElementById('btn-enviar-cuest').disabled = false;
+            });
+        }
+
+        onValue(ref(db, 'respuestas_socios'), (snapshot) => {
+            const data = snapshot.val();
+            const container = document.getElementById('lista-respuestas-socios');
+            if(!container) return;
+            
+            container.innerHTML = '';
+            if(!data) {
+                container.innerHTML = '<p style="color:#888; text-align:center;">Aún no hay respuestas de prospectos a socio.</p>';
+                return;
+            }
+
+            Object.keys(data).reverse().forEach(key => {
+                const item = data[key];
+                const div = document.createElement('div');
+                div.style.cssText = "background: #1a1a1a; border: 1px solid #333; border-radius: 8px; padding: 15px; margin-bottom: 20px;";
+                div.innerHTML = `
+                    <div style="display:flex; justify-content:space-between; border-bottom:1px solid #333; padding-bottom:10px; margin-bottom:10px;">
+                        <strong style="color:var(--primary); font-size:1.1rem;">${item.nombre}</strong>
+                        <span style="color:#888; font-size:0.8rem;">${item.fecha}</span>
+                    </div>
+                    <p style="color:white; margin-bottom:15px; font-size: 1.1rem;"><i class="fab fa-whatsapp" style="color:#25D366;"></i> ${item.whatsapp}</p>
+                    
+                   <p style="color:#ccc; font-size:0.85rem; margin-bottom:8px;"><strong>1. Dif. comisiones:</strong>
+                    <div style="background: rgba(0,255,136,0.05); padding: 10px; margin-top: 15px; border-radius: 5px; border-left: 3px solid var(--primary);">
+                        <p style="color:white; font-size:0.9rem; margin-bottom:5px;"><strong>Accesos que desea:</strong> ${item.credenciales}</p>
+                        <p style="color:white; font-size:0.9rem;"><strong>¿Acepta Normas?:</strong> ${item.terminos}</p>
+                    </div>
+
+                    <div style="display:flex; gap:10px; margin-top:15px;">
+                        <button onclick="window.open('https://wa.me/${item.whatsapp.replace(/[^0-9]/g, '')}?text=Hola ${item.nombre}, revisé tu evaluación de socio ZonaTecno...', '_blank')" class="btn btn-primary" style="flex:1; padding: 8px; font-size:0.8rem;"><i class="fab fa-whatsapp"></i> Hablarle</button>
+                        <button onclick="eliminarRespuestaSocio('${key}')" class="btn btn-outline" style="padding: 8px; font-size:0.8rem; color:#ff3366; border-color:#ff3366;"><i class="fas fa-trash"></i></button>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        });
+
+        window.eliminarRespuestaSocio = function(key) {
+            if(confirm('¿Estás seguro de que quieres eliminar esta evaluación?')) {
+                remove(ref(db, 'respuestas_socios/' + key));
+            }
+        };
+
     </script>
 </body>
 </html>
