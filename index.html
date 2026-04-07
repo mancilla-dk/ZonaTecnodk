@@ -1500,8 +1500,18 @@
                 return;
             }
 
-            Object.keys(data).reverse().forEach(key => {
+                        Object.keys(data).reverse().forEach(key => {
                 const item = data[key];
+                
+                // Extraer y construir la lista de respuestas dinámicamente
+                let respuestasList = `<p style="color:var(--primary); font-weight:bold; font-size:1.1rem; margin-bottom:10px; text-transform:uppercase;">Puntaje: ${item.puntaje !== undefined ? item.puntaje : '?'} / 10</p>`;
+                if (item.respuestas) {
+                    for (let i = 1; i <= 10; i++) {
+                        let r = item.respuestas['p'+i] || 'Sin respuesta';
+                        respuestasList += `<p style="color:#ccc; font-size:0.85rem; margin-bottom:5px; border-bottom:1px solid #333; padding-bottom:5px;"><strong>P${i}:</strong> ${r}</p>`;
+                    }
+                }
+
                 const div = document.createElement('div');
                 div.style.cssText = "background: #1a1a1a; border: 1px solid #333; border-radius: 8px; padding: 15px; margin-bottom: 20px;";
                 div.innerHTML = `
@@ -1511,19 +1521,23 @@
                     </div>
                     <p style="color:white; margin-bottom:15px; font-size: 1.1rem;"><i class="fab fa-whatsapp" style="color:#25D366;"></i> ${item.whatsapp}</p>
                     
-                   <p style="color:#ccc; font-size:0.85rem; margin-bottom:8px;"><strong>1. Dif. comisiones:</strong>
+                    <div style="background: #080808; padding: 10px; border-radius: 5px; margin-bottom: 10px; border: 1px solid #222; max-height: 200px; overflow-y: auto;">
+                        ${respuestasList}
+                    </div>
+
                     <div style="background: rgba(0,255,136,0.05); padding: 10px; margin-top: 15px; border-radius: 5px; border-left: 3px solid var(--primary);">
                         <p style="color:white; font-size:0.9rem; margin-bottom:5px;"><strong>Accesos que desea:</strong> ${item.credenciales}</p>
                         <p style="color:white; font-size:0.9rem;"><strong>¿Acepta Normas?:</strong> ${item.terminos}</p>
                     </div>
 
                     <div style="display:flex; gap:10px; margin-top:15px;">
-                        <button onclick="window.open('https://wa.me/${item.whatsapp.replace(/[^0-9]/g, '')}?text=Hola ${item.nombre}, revisé tu evaluación de socio ZonaTecno...', '_blank')" class="btn btn-primary" style="flex:1; padding: 8px; font-size:0.8rem;"><i class="fab fa-whatsapp"></i> Hablarle</button>
+                        <button onclick="window.open('https://wa.me/${item.whatsapp ? item.whatsapp.replace(/[^0-9]/g, '') : ''}?text=Hola ${item.nombre}, revisé tu evaluación de socio ZonaTecno y sacaste ${item.puntaje}/10...', '_blank')" class="btn btn-primary" style="flex:1; padding: 8px; font-size:0.8rem;"><i class="fab fa-whatsapp"></i> Hablarle</button>
                         <button onclick="eliminarRespuestaSocio('${key}')" class="btn btn-outline" style="padding: 8px; font-size:0.8rem; color:#ff3366; border-color:#ff3366;"><i class="fas fa-trash"></i></button>
                     </div>
                 `;
                 container.appendChild(div);
             });
+
         });
 
         window.eliminarRespuestaSocio = function(key) {
@@ -1535,3 +1549,4 @@
     </script>
 </body>
 </html>
+
