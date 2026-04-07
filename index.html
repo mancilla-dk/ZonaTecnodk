@@ -1092,21 +1092,36 @@
             initNeonCarousel(containerId, dotsId);
         }
                 
-        // --- LOGICA DE CUESTIONARIO ---
+               // --- LOGICA DE CUESTIONARIO ---
+        window.activarModoCuestionario = function() {
+            document.querySelector('.hero').style.display = 'none';
+            if(document.getElementById('wrapper-apps-digitales')) document.getElementById('wrapper-apps-digitales').style.display = 'none';
+            document.getElementById('carousel-social').style.display = 'none';
+            document.getElementById('servicios').style.display = 'none';
+            
+            // Ocultar títulos sueltos que no sean el del cuestionario
+            document.querySelectorAll('.section-title').forEach(el => {
+                if(el.innerText !== "EVALUACIÓN DE INGRESO SOCIO") el.style.display = 'none';
+            });
+
+            const cajasNeon = document.querySelectorAll('.neon-vertical-box');
+            cajasNeon.forEach(c => c.style.display = 'none');
+            if(document.getElementById('wrapper-sistemas-desarrollados')) document.getElementById('wrapper-sistemas-desarrollados').style.display = 'none';
+            document.getElementById('wrapper-socio').style.display = 'none';
+            
+            // Ocultar solo las tarjetas de contacto, sin ocultar el contenedor padre
+            const opinionCard = document.querySelector('.hub-card.opinion');
+            const contactCard = document.querySelector('.hub-card.contact');
+            if(opinionCard) opinionCard.style.display = 'none';
+            if(contactCard) contactCard.style.display = 'none';
+            
+            const cuestionario = document.getElementById('wrapper-cuestionario');
+            if(cuestionario) cuestionario.style.display = 'block';
+        };
+
         window.addEventListener('DOMContentLoaded', () => {
             if(window.location.hash === '#cuestionario') {
-                document.querySelector('.hero').style.display = 'none';
-                if(document.getElementById('wrapper-apps-digitales')) document.getElementById('wrapper-apps-digitales').style.display = 'none';
-                document.getElementById('carousel-social').style.display = 'none';
-                document.getElementById('servicios').style.display = 'none';
-                const cajasNeon = document.querySelectorAll('.neon-vertical-box');
-                cajasNeon.forEach(c => c.style.display = 'none');
-                if(document.getElementById('wrapper-sistemas-desarrollados')) document.getElementById('wrapper-sistemas-desarrollados').style.display = 'none';
-                document.getElementById('wrapper-socio').style.display = 'none';
-                document.getElementById('contacto-hub').style.display = 'none';
-                
-                const cuestionario = document.getElementById('wrapper-cuestionario');
-                if(cuestionario) cuestionario.style.display = 'block';
+                window.activarModoCuestionario();
             }
         });
 
@@ -1243,6 +1258,10 @@
                 content.style.opacity = '1';
                 initCarousel('carousel-social');
             }
+                        if(window.location.hash === '#cuestionario') {
+                window.activarModoCuestionario();
+            }
+
         });
 
         // --- FUNCIONES DEL ADMIN ---
@@ -1516,4 +1535,3 @@
     </script>
 </body>
 </html>
-
