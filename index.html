@@ -423,8 +423,51 @@
         .btn-edit { background: var(--primary); color: #000; }
         .btn-del { background: #ff3366; color: #fff; }
 
+            /* --- MENU DESLIZANTE --- */
+        #slide-menu {
+            position: fixed; top: 0; left: -300px; width: 280px; height: 100vh;
+            background: #080808; border-right: 1px solid var(--primary);
+            z-index: 2001; transition: left 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); padding: 60px 20px 20px;
+            box-shadow: 5px 0 20px rgba(0,255,136,0.1); overflow-y: auto;
+        }
+        #slide-menu.active { left: 0; }
+        .menu-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); z-index: 2000; display: none;
+            backdrop-filter: blur(4px);
+        }
+        .menu-overlay.active { display: block; }
+        .menu-title { color: var(--text-sec); font-size: 0.9rem; margin-bottom: 20px; text-transform: uppercase; border-bottom: 1px solid #222; padding-bottom: 10px; letter-spacing: 1px;}
+        .menu-link {
+            display: flex; align-items: center; gap: 12px; color: white; text-decoration: none; padding: 14px 15px;
+            margin-bottom: 10px; border-radius: 8px; font-weight: 600; font-size: 1.1rem;
+            background: rgba(255,255,255,0.03); transition: 0.3s; border: 1px solid transparent;
+        }
+        .menu-link:hover { background: rgba(0,255,136,0.1); color: var(--primary); border-color: var(--primary); transform: translateX(5px); }
+        .close-menu { position: absolute; top: 15px; right: 20px; font-size: 2rem; color: #555; cursor: pointer; transition: 0.3s;}
+        .close-menu:hover { color: #ff3366; transform: scale(1.1); }
+        .hamburger-btn { color: white; font-size: 1.4rem; cursor: pointer; margin-right: 15px; display: flex; align-items: center; transition: 0.3s;}
+        .hamburger-btn:hover { color: var(--primary); }
+
+        /* --- MEJORAS SECCIÓN SOCIO --- */
+        .normas-box {
+            background: rgba(0,0,0,0.4); border: 1px dashed #444;
+            padding: 20px; border-radius: 10px; margin-bottom: 25px; font-size: 0.95rem; color: #ccc;
+        }
+        .normas-box ul { margin-left: 20px; margin-top: 12px; list-style-type: square; }
+        .normas-box li { margin-bottom: 10px; line-height: 1.4; }
+        /* --- INFO SOCIO GRID --- */
+        .socio-info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 35px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 25px; }
+        .socio-info-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.1); padding: 25px 20px; border-radius: 12px; text-align: center; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        .socio-info-card:hover { border-color: var(--primary); background: rgba(0,255,136,0.05); transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,255,136,0.1); }
+        .socio-info-card i { font-size: 2.2rem; color: var(--primary); margin-bottom: 15px; }
+        .socio-info-card h4 { font-size: 1.15rem; margin-bottom: 10px; color: #fff; text-transform: uppercase; letter-spacing: 0.5px; }
+        .socio-info-card p { font-size: 0.9rem; color: #aaa; line-height: 1.5; }
+        .socio-info-card strong { color: var(--primary); }
+
     </style>
 </head>
+
 <body>
 
     <div id="skeleton-screen">
@@ -441,9 +484,25 @@
     </div>
 
     <div id="main-content">
-        <nav>
-            <div class="logo"><span id="logo-part-1" style="color:white;">ZONA</span><span id="logo-part-2">TECNO</span></div>
+                <div class="menu-overlay" id="menu-overlay" onclick="toggleMenu()"></div>
+        <div id="slide-menu">
+            <span class="close-menu" onclick="toggleMenu()">&times;</span>
+            <div class="menu-title">¿Qué deseas hacer?</div>
+            <a href="#wrapper-apps-digitales" class="menu-link" onclick="toggleMenu()"><i class="fas fa-mobile-alt"></i> Nuestras Apps</a>
+            <a href="#carousel-social" class="menu-link" onclick="toggleMenu()"><i class="fas fa-users"></i> Comunidad</a>
+            <a href="#servicios" class="menu-link" onclick="toggleMenu()"><i class="fas fa-store"></i> Catálogo Digital</a>
+            <a href="#wrapper-sistemas-desarrollados" class="menu-link" onclick="toggleMenu()"><i class="fas fa-laptop-code"></i> Sistemas Desarrollados</a>
+            <a href="#wrapper-socio" class="menu-link" onclick="toggleMenu()"><i class="fas fa-handshake"></i> Solicitud de Socios</a>
+            <a href="#contacto-hub" class="menu-link" onclick="toggleMenu()"><i class="fas fa-headset"></i> Contacto y Opiniones</a>
+        </div>
+
+          <nav>
+            <div style="display: flex; align-items: center;">
+                <div class="hamburger-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
+                <div class="logo"><span id="logo-part-1" style="color:white;">ZONA</span><span id="logo-part-2">TECNO</span></div>
+            </div>
             <div class="social-nav">
+
                 <a href="#"><i class="fab fa-youtube"></i></a>
                 <a href="#"><i class="fab fa-facebook"></i></a>
                 <img src="https://i.ibb.co/VYVgCt2z/1000208341.png" alt="Admin" class="admin-trigger-nav" onclick="abrirAdmin()">
@@ -517,6 +576,78 @@
                 <div class="catalog-carousel" id="carousel-sistemas-desarrollados">
                     </div>
                 <div class="carrusel-dots" id="dots-sistemas-desarrollados"></div>
+            </div>
+        </div>
+               <div id="wrapper-socio" style="max-width: 800px; margin: 0 auto 60px; padding: 0 20px;">
+            <h2 class="section-title">¡ÚNETE COMO SOCIO OFICIAL!</h2>
+            <div class="hub-card" style="text-align: left; padding: 40px 30px; border: 1px solid var(--primary); background: #121212; box-shadow: 0 0 30px rgba(0, 255, 136, 0.08); border-radius: 15px;">
+                <h3 style="color: var(--primary); margin-bottom: 15px; text-transform: uppercase; text-align: center; font-size: 1.5rem;">Solicita tu Acceso Maestro</h3>
+                <p style="color: var(--text-sec); font-size: 0.95rem; margin-bottom: 30px; line-height: 1.6; text-align: center;">
+                    Obtén altas comisiones recurrentes y de pago único. Tendrás acceso a tu propio panel de control, catálogo de ventas y arsenal de marketing completo.
+                </p>
+                                <div class="socio-info-grid">
+                    <div class="socio-info-card">
+                        <i class="fas fa-hand-holding-usd"></i>
+                        <h4>Dos Tipos de Ingresos</h4>
+                        <p>Genera <strong>Comisiones Únicas</strong> (dinero inmediato) por ventas fijas, y <strong>Comisiones Recurrentes</strong> (ingresos pasivos mes a mes) por las renovaciones de tus clientes.</p>
+                    </div>
+                    <div class="socio-info-card">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <h4>Modo "La Matraca"</h4>
+                        <p>Tu comisión base es del 20%. Pero si logras 12 ventas en 7 días, activas el acelerador y tus ganancias saltan al <strong>30% directo y 10% recurrente</strong>.</p>
+                    </div>
+                    <div class="socio-info-card">
+                        <i class="fas fa-chart-line"></i>
+                        <h4>Tu Panel Maestro</h4>
+                        <p>Monitorea a tus prospectos en 3 Fases. Pide a tus clientes que paguen directamente a nuestras cuentas y cuando la venta se apruebe, <strong>tú retiras tus ganancias directo a tu banco</strong>.</p>
+                    </div>
+                </div>
+
+                <form id="form-socio" onsubmit="enviarCorreoSocio(event)">
+                    <label class="admin-label">Nombre Completo:</label>
+                    <input type="text" id="socio-nombre" class="admin-input" required placeholder="Ej: Carlos Mendoza">
+
+                    <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                        <div style="flex: 1; min-width: 200px;">
+                            <label class="admin-label">País y Ciudad:</label>
+                            <input type="text" id="socio-pais" class="admin-input" required placeholder="Ej: México, CDMX">
+                        </div>
+                        <div style="flex: 1; min-width: 200px;">
+                            <label class="admin-label">Número de WhatsApp:</label>
+                            <input type="tel" id="socio-wa" class="admin-input" required placeholder="+52 ...">
+                        </div>
+                    </div>
+
+                    <label class="admin-label">Nivel de Experiencia:</label>
+                    <select id="socio-exp" class="admin-input" required>
+                        <option value="" disabled selected>Selecciona tu experiencia en ventas/marketing...</option>
+                        <option value="Avanzado">Sí, tengo mucha experiencia</option>
+                        <option value="Intermedio">Tengo conocimientos básicos</option>
+                        <option value="Principiante">No tengo experiencia, pero quiero aprender</option>
+                    </select>
+
+                    <label class="admin-label">Motivo de ingreso:</label>
+                    <textarea id="socio-desc" class="admin-input" rows="3" required placeholder="Cuéntanos tus metas y por qué te interesa colaborar..."></textarea>
+
+                    <div class="normas-box">
+                        <strong style="color: var(--primary); font-size: 1.1rem;"><i class="fas fa-clipboard-list"></i> NORMAS Y COMPROMISOS:</strong>
+                        <ul>
+                            <li><strong>Regla de los 10 Minutos:</strong> Atención rápida y disciplina impecable con los prospectos (Evitar demoras).</li>
+                            <li><strong>Capacitación Obligatoria:</strong> Deberás estudiar los manuales para conocer a fondo el producto.</li>
+                            <li><strong>Transparencia:</strong> Manejo 100% honesto en cobros, reportes financieros y trato al cliente.</li>
+                            <li><strong>Modo Matraca:</strong> Compromiso para mantener un flujo de ventas y maximizar tus ganancias hasta un 30%.</li>
+                        </ul>
+                    </div>
+
+                    <label style="display:flex; align-items:flex-start; gap:15px; margin: 20px 0; cursor:pointer; color: var(--text-main); font-size: 0.95rem; background: rgba(0,255,136,0.05); padding: 15px; border-radius: 8px; border: 1px solid rgba(0,255,136,0.2);">
+                        <input type="checkbox" id="socio-normas" required style="margin-top: 3px; width: 22px; height: 22px; accent-color: var(--primary);">
+                        He leído y acepto cumplir estrictamente las normas, y me comprometo a tomar la capacitación inicial.
+                    </label>
+
+                    <button type="submit" class="btn btn-primary" style="width:100%; margin-top:10px; font-size: 1.1rem; padding: 15px; text-transform: uppercase;">
+                        <i class="fas fa-paper-plane"></i> Enviar solicitud para Usuario y Contraseña
+                    </button>
+                </form>
             </div>
         </div>
 
@@ -657,6 +788,36 @@
             }
             window.open(`https://wa.me/${window.globalPhone}?text=${encodeURIComponent(mensaje)}`, '_blank');
         }
+               function toggleMenu() {
+            const menu = document.getElementById('slide-menu');
+            const overlay = document.getElementById('menu-overlay');
+            menu.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+                function enviarCorreoSocio(event) {
+            event.preventDefault();
+            const nombre = document.getElementById('socio-nombre').value;
+            const pais = document.getElementById('socio-pais').value;
+            const wa = document.getElementById('socio-wa').value;
+            const exp = document.getElementById('socio-exp').value;
+            const desc = document.getElementById('socio-desc').value;
+            const normas = document.getElementById('socio-normas').checked ? "Sí, compromisos aceptados" : "No";
+
+            const mensajeSocio = 
+                "🚀 *NUEVA SOLICITUD DE SOCIO VIP*\n\n" +
+                "Hola ZonaTecno, quiero solicitar mi Acceso Maestro:\n\n" +
+                "👤 *Nombre:* " + nombre + "\n" +
+                "🌍 *País/Ciudad:* " + pais + "\n" +
+                "📱 *WhatsApp de contacto:* " + wa + "\n" +
+                "📈 *Experiencia:* " + exp + "\n\n" +
+                "💬 *Motivo de ingreso:*\n" + desc + "\n\n" +
+                "✅ *Normas y Capacitación:* " + normas + "\n\n" +
+                "Espero su respuesta para la creación de mi usuario y contraseña.";
+
+            window.open(`https://wa.me/${window.globalPhone}?text=${encodeURIComponent(mensajeSocio)}`, '_blank');
+        }
+
 
         // --- CARRUSELES CLÁSICOS ---
         function initCarousel(id) {
@@ -1103,3 +1264,4 @@
     </script>
 </body>
 </html>
+
